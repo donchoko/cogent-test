@@ -1,17 +1,27 @@
 import React from "react";
-import { Card, Image, Text, Badge, Group, Flex, Button, useMantineTheme } from "@mantine/core";
-import { MapMarkerData, Place, Review } from "../types/places";
+import {
+    Card,
+    Image,
+    Text,
+    Badge,
+    Group,
+    Flex,
+    Button,
+    useMantineTheme,
+} from "@mantine/core";
+import { Place, Review } from "../types/places";
 import { Carousel } from "@mantine/carousel";
 import RatingStars from "./RatingStars";
 import SocialMedia from "./SocialMedia";
-
+import { MapMarkerData } from "../types/maps";
+import { IconPhone } from "@tabler/icons-react";
 
 interface CardProps {
     place: Place;
     openReviews: () => void;
     setSelectedReviews: (reviews: Review[]) => void;
     openMapDrawer: () => void;
-	setSelectedMarkerData: (data: MapMarkerData) => void;
+    setSelectedMarkerData: (data: MapMarkerData) => void;
 }
 
 const IMAGES_HEIGHT_4_5 = 576;
@@ -22,9 +32,9 @@ const PlaceCard = ({
     openReviews,
     setSelectedReviews,
     openMapDrawer,
-	setSelectedMarkerData,
+    setSelectedMarkerData,
 }: CardProps) => {
-	const theme = useMantineTheme();
+    const theme = useMantineTheme();
     const getPhotoUrl = (
         prefix: string,
         suffix: string,
@@ -37,14 +47,17 @@ const PlaceCard = ({
         openReviews();
     };
 
-	const handleOpenMap = () => {
-		setSelectedMarkerData({
-			lat: place.geocodes.main.latitude,
-			lng: place.geocodes.main.longitude,
-			name: place.name,
-		})
-		openMapDrawer();
-	}
+    const handleOpenMap = () => {
+        setSelectedMarkerData({
+            lat: place.geocodes.main.latitude,
+            lng: place.geocodes.main.longitude,
+            name: place.name,
+        });
+        openMapDrawer();
+    };
+
+    const isOpenColor = place.hours?.open_now ? "green" : "red";
+    const isOpenText = place.hours?.open_now ? "Open" : "Closed";
 
     return (
         <Card
@@ -52,17 +65,18 @@ const PlaceCard = ({
             padding="lg"
             radius="md"
             withBorder
-			style={{ backgroundColor: theme.colors.dark[5]}}
+            style={{ backgroundColor: theme.colors.dark[5] }}
             w={{ base: "90%", md: "50%", lg: "50%" }}
         >
             <Card.Section>
-                {place?.photos && place?.photos?.length > 0 && <Carousel
-                    withIndicators
-                    height="auto"
-                    slideGap="xs"
-                    align="start"
-                >
-                    {place.photos.map((photo, idx) => (
+                {place?.photos && place?.photos?.length > 0 && (
+                    <Carousel
+                        withIndicators
+                        height="auto"
+                        slideGap="xs"
+                        align="start"
+                    >
+                        {place.photos.map((photo, idx) => (
                             <Carousel.Slide key={`photo-${idx}`}>
                                 <Image
                                     alt=""
@@ -75,15 +89,34 @@ const PlaceCard = ({
                                 />
                             </Carousel.Slide>
                         ))}
-                </Carousel>}
+                    </Carousel>
+                )}
                 <Flex direction="column" gap="md" style={{ margin: 20 }}>
                     <Flex justify="space-between" align="center">
-						<Text size="lg" fw={900}>{place.name}</Text>
-						<SocialMedia {...place?.social_media} website={place?.website} />
-					</Flex>
-                    <Text size="sm">
-                        {place.description}
-                    </Text>
+                        <Flex gap="xs" align="center">
+                            <Text size="lg" fw={900}>
+                                {place.name}
+                            </Text>
+                            <Badge color={isOpenColor} radius="md">{isOpenText}</Badge>
+                        </Flex>
+
+                        <SocialMedia
+                            {...place?.social_media}
+                            website={place?.website}
+                        />
+                    </Flex>
+                    <Flex justify="space-between" align="center">
+                        {
+                            <Text size="sm">{`${
+                                place?.hours?.display ?? ""
+                            }`}</Text>
+                        }
+                        <Flex gap="xs" align="center">
+                            <IconPhone />
+                            <Text size="lg">{place.tel}</Text>
+                        </Flex>
+                    </Flex>
+                    <Text size="sm">{place.description}</Text>
                     <Flex align="center">
                         <Group mt="md" mb="xs">
                             {place.categories &&
@@ -96,9 +129,16 @@ const PlaceCard = ({
                     </Flex>
                     <Flex justify="space-between" align="center">
                         <Flex align={"center"} gap="sm">
-						<Button onClick={handleOpenReviews} disabled={!place?.tips || place?.tips?.length === 0}>Reviews</Button>
-							<RatingStars rating={place.rating} />
-						</Flex>
+                            <Button
+                                onClick={handleOpenReviews}
+                                disabled={
+                                    !place?.tips || place?.tips?.length === 0
+                                }
+                            >
+                                Reviews
+                            </Button>
+                            <RatingStars rating={place.rating} />
+                        </Flex>
                         <Button onClick={handleOpenMap}>View map</Button>
                     </Flex>
                 </Flex>

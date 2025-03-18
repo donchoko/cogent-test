@@ -7,6 +7,7 @@ export interface Place {
     fsq_id: string;
     name: string;
     description: string;
+    tel: string;
     categories: {
         id: number;
         name: string;
@@ -30,6 +31,7 @@ export interface Place {
         };
     };
     hours?: {
+        display: string;
         is_local_holiday: boolean;
         open_now: boolean;
     };

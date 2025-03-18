@@ -2,7 +2,7 @@ import React from "react";
 import { Flex } from "@mantine/core";
 import { COGENT_LAB_LOCATION } from "../lib/utils";
 import { AdvancedMarker, Map, Pin } from "@vis.gl/react-google-maps";
-import { MapMarkerData } from "../types/places";
+import { MapMarkerData } from "../types/maps";
 import { IconHome } from '@tabler/icons-react'
 
 const center = {

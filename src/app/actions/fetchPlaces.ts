@@ -53,6 +53,7 @@ export async function searchPlaces(
     }
 
     let data = (await response.json()).results;
+    console.log(data);
     switch (sorting) {
         case SortType.Name:
             data = data?.sort((a: Place, b: Place) => b?.name < a?.name ? 1 : -1);
