@@ -1,36 +1,64 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+## Running the application (Docker)
+```bash
+docker-compose up
+```
+
+
+## Running the development server
 
 First, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3005](http://localhost:3005) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Use case
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This applications provides a list of venues near the Cogent Labs offices. A list of restaurants is queries from the Foursquare Places API. When the page loads the first time it will pull 15 random restaurants from queries results. A list will be populated with cards showing the main information for each restaurant, on this version the available information is:
 
-## Learn More
+- Name
+- Description
+- Food types
+- Rating
+- Reviews
+- Location
+- Website
+- Social media
+- Open hours
 
-To learn more about Next.js, take a look at the following resources:
+Through each card a map can be accessed that will display the location for the venue and the location of the office for reference.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+A search field is available that allows to search for keyword specific restaurants and sort them by name or rating.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Tools
 
-## Deploy on Vercel
+- TypeScript
+- Next.js
+- Mantine UI
+- Redux
+- Jest
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Issues
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- The API calls are set on server side actions, but for future would be nice to have an API that could serve as a proxy for this calls and return pre-sorted results, sanitized data and cached, leaving the frontend only to display data.
+- Ended up using redux to capture the list places, this probably could have been done passing the results from props but I think it's a much cleaner solution, specially when adding other functionality like search that would update this list.
+- Didn't have time to finish writing more unit tests, I will try to add them in a few days just so this is completed but there's a lot that requires to be tested, specially the server side actions.
+- I'm still a bit new using Mantine UI, I think it provides a good set of components, and it's pretty easy to use without removing flexibility.
+- I usually add some snapshot testing for consistency, Mantine caused some issue as it generates random IDs for inner elements for some components, this probably can be solved by a serializer but didn't have enough time to fix it.
+- Styling some of the components more and adding a proper theme would be nice too.
+
+## Improvements
+
+As a list of possible improvements to this app:
+
+- Caching for search results
+- Improve markers displayed on map
+- Search for venus directly on map, instead of render marker
+- Switch Foursquare API for Google Places API
+- Add pagination for search
+- Save favorite places
+- Add more testing
