@@ -11,6 +11,7 @@ docker-compose up
 First, run the development server:
 
 ```bash
+npm install --legacy-peer-deps
 npm run dev
 ```
 
@@ -62,3 +63,7 @@ As a list of possible improvements to this app:
 - Add pagination for search
 - Save favorite places
 - Add more testing
+
+## Note
+
+I also deployed this through vercel, and can be accessed on the following url: cogent-test.vercel.app
