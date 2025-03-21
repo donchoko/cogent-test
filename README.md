@@ -1,10 +1,13 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
 ## Running the application (Docker)
 ```bash
 docker-compose up
 ```
+To run the file you require setting up following environment variables in an `.env` file:
 
+```
+FOURSQUARE_API_KEY="your-api-key"
+GOOGLE_MAPS_API_KEY="your-api-key"
+```
 
 ## Running the development server
 
@@ -48,7 +51,6 @@ A search field is available that allows to search for keyword specific restauran
 - The API calls are set on server side actions, but for future would be nice to have an API that could serve as a proxy for this calls and return pre-sorted results, sanitized data and cached, leaving the frontend only to display data.
 - Ended up using redux to capture the list places, this probably could have been done passing the results from props but I think it's a much cleaner solution, specially when adding other functionality like search that would update this list.
 - Didn't have time to finish writing more unit tests, I will try to add them in a few days just so this is completed but there's a lot that requires to be tested, specially the server side actions.
-- I'm still a bit new using Mantine UI, I think it provides a good set of components, and it's pretty easy to use without removing flexibility.
 - I usually add some snapshot testing for consistency, Mantine caused some issue as it generates random IDs for inner elements for some components, this probably can be solved by a serializer but didn't have enough time to fix it.
 - Styling some of the components more and adding a proper theme would be nice too.
 
@@ -62,6 +64,7 @@ As a list of possible improvements to this app:
 - Switch Foursquare API for Google Places API
 - Add pagination for search
 - Save favorite places
+- Add styling to make it responsive, some components are not showing properly when using in a phone
 - Add more testing
 
 ## Note
