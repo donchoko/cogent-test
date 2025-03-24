@@ -64,8 +64,13 @@ As a list of possible improvements to this app:
 - Switch Foursquare API for Google Places API
 - Add pagination for search
 - Save favorite places
-- Add styling to make it responsive, some components are not showing properly when using in a phone
-- Add more testing
+
+Recently updated
+- Fixed mobile view
+- Swapped sort selector to use a radio group as it worked better than the previous selector from mantine
+- Fixed component structure to a bit
+- Added sidebar on mobile view to display search field and sorting
+
 
 ## Note
 
