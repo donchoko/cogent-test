@@ -1,7 +1,7 @@
 "use client";
 import logo from "../logo.png";
 import { AppShell, Container, Drawer, Flex, Image } from "@mantine/core";
-import React, { useState } from "react";
+import { useState } from "react";
 import CardList from "./CardList";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
@@ -12,12 +12,16 @@ import LocationMap from "./LocationMap";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import { MapMarkerData } from "../types/maps";
 import { SortType } from "../types/search";
+import { useDisclosure } from "@mantine/hooks";
+import BurgerMenu from "./BurgerMenu";
+import SortOptions from "./SortOptions";
 
 const App = ({ mapsKey }: { mapsKey: string }) => {
     const places = useSelector((state: RootState) => state.app.places);
     const [lastSearch, setLastSearch] = useState<string>("");
     const [sort, setSort] = useState<SortType>(SortType.Rating);
     const [isMapDrawerOpen, setIsMapDrawerOpen] = useState<boolean>(false);
+    const [opened, { toggle }] = useDisclosure();
     const [selectedLocationData, setSelectLocationData] =
         useState<MapMarkerData>();
     const dispatch = useDispatch();
@@ -43,7 +47,14 @@ const App = ({ mapsKey }: { mapsKey: string }) => {
     const openMapDrawer = () => setIsMapDrawerOpen(true);
 
     return (
-        <AppShell header={{ height: 60 }}>
+        <AppShell
+            header={{ height: 60 }}
+            navbar={{
+                width: { xs: 100, sm: 0 },
+                breakpoint: 'sm',
+                collapsed: { mobile: !opened },
+            }}
+        >
             <AppShell.Header style={{ alignContent: "center" }}>
                 <Flex
                     align="center"
@@ -57,14 +68,23 @@ const App = ({ mapsKey }: { mapsKey: string }) => {
                     >
                         <Image alt="logo" src={logo.src} />
                     </Flex>
-                    <Flex>
+                    <Flex gap="5rem">
+                        <BurgerMenu opened={opened} toggle={toggle} />
+                        <SortOptions sort={sort} visibleFrom="sm" setSort={setSort} />
                         <SearchField
+                            visibleFrom="sm"
                             onSearch={handleSearchPlaces}
-                            setSort={setSort}
                         />
                     </Flex>
                 </Flex>
             </AppShell.Header>
+            <AppShell.Navbar hiddenFrom="sm">
+                <SearchField
+                    onSearch={handleSearchPlaces}
+                    width="80%"
+                />
+                <SortOptions sort={sort} setSort={setSort} width="100%" />
+            </AppShell.Navbar>
 
             <AppShell.Main style={{ width: "100%" }}>
                 <Container fluid style={{ padding: "0" }}>

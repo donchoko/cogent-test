@@ -92,40 +92,39 @@ const PlaceCard = ({
                     </Carousel>
                 )}
                 <Flex direction="column" gap="md" style={{ margin: 20 }}>
-                    <Flex justify="space-between" align="center">
-                        <Flex gap="xs" align="center">
+                    <Flex direction={{ base: 'column', xs: 'column', sm: 'row' }} rowGap="md" justify={{ base: 'start', sm: 'space-between' }} align={{ xs: 'start', sm: 'center' }}>
+                        <Flex columnGap="xs" rowGap="xs" align={{ base: 'start', sm: 'center' }} direction={{ base: 'column', sm: 'row' }}>
                             <Text size="lg" fw={900}>
                                 {place.name}
                             </Text>
                             <Badge color={isOpenColor} radius="md">{isOpenText}</Badge>
                         </Flex>
-
                         <SocialMedia
                             {...place?.social_media}
                             website={place?.website}
                         />
                     </Flex>
-                    <Flex justify="space-between" align="center">
-                        {
-                            <Text size="sm">{`${
-                                place?.hours?.display ?? ""
-                            }`}</Text>
-                        }
+                    <Flex direction={{ base: 'column', xs: 'column', sm: 'row' }} align={{ base: 'start', sm: 'center' }} justify="space-between">
+                        <Text size="sm">{`${place?.hours?.display ?? ""}`}</Text>
                         <Flex gap="xs" align="center">
                             <IconPhone />
                             <Text size="lg">{place.tel}</Text>
                         </Flex>
                     </Flex>
-                    <Text size="sm">{place.description}</Text>
-                    <Flex align="center">
-                        <Group mt="md" mb="xs">
-                            {place.categories &&
-                                place.categories.map((category) => (
-                                    <Badge key={category.id} color="blue">
-                                        {category.name}
-                                    </Badge>
-                                ))}
-                        </Group>
+                    <Text size="sm" style={{ textOverflow: 'ellipsis' }}>{place.description}</Text>
+                    <Flex justify="space-between" direction={{ base: 'column', xs: 'column', sm: 'row' }}>
+                        <RatingStars rating={place.rating} />
+                        <Flex align="center">
+                            <Group mt="md" mb="xs">
+                                {place.categories &&
+                                    place.categories.map((category) => (
+                                        <Badge key={category.id} color="blue">
+                                            {category.name}
+                                        </Badge>
+                                    ))}
+                            </Group>
+
+                        </Flex>
                     </Flex>
                     <Flex justify="space-between" align="center">
                         <Flex align={"center"} gap="sm">
@@ -137,7 +136,6 @@ const PlaceCard = ({
                             >
                                 Reviews
                             </Button>
-                            <RatingStars rating={place.rating} />
                         </Flex>
                         <Button onClick={handleOpenMap}>View map</Button>
                     </Flex>
